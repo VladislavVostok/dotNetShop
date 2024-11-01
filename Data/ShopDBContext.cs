@@ -11,10 +11,5 @@ public ShopDBContext(DbContextOptions<ShopDBContext> options) : base(options) { 
 		{
             base.OnModelCreating(modelBuilder);
         }
-
-		public DbSet<ContactsFrom> Items { get; set; }
-		public DbSet<Product> SerialNumbers { get; set; }
-		public DbSet<Category> Categories { get; set; }
-
 	}
 }
