@@ -3,12 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 
 
-namespace dotNetShop.Models{
-        public class Comment
+namespace dotNetShop.Models
+{
+    public class Comment
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
-        
+
         [Required]
         [MaxLength(500)]
         public string Content { get; set; }

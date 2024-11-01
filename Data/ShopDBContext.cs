@@ -41,6 +41,26 @@ namespace dotNetShop.Data
                 .HasForeignKey(c => c.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+			modelBuilder.Entity<Category>().HasData(
+				new Product {Name="Кроссовки"}
+			);
+
+			modelBuilder.Entity<Brand>().HasData(
+				new Product {Name="Addidas"},
+				new Product {Name="Puma"}
+			);
+
+
+			modelBuilder.Entity<Product>().HasData(
+				new Product {Name="addidas New Hammer sole for Sports person", Price=210.00M, DiscountedPrice=150.00M, CategoryId = 1, BrandId=1 },
+				new Product {Name="ddsfjaskdfjlkasdjg", Price=210.00M, DiscountedPrice=150.00M, CategoryId = 1, BrandId=1 },
+				new Product {Name="ddsfjaskdfjlkasdjg", Price=210.00M, DiscountedPrice=150.00M, CategoryId = 1, BrandId=2 },
+				new Product {Name="ddsfjaskdfjlkasdjg", Price=210.00M, DiscountedPrice=150.00M, CategoryId = 1, BrandId=2 },
+				new Product {Name="ddsfjaskdfjlkasdjg", Price=210.00M, DiscountedPrice=150.00M, CategoryId = 1, BrandId=1 },
+				new Product {Name="ddsfjaskdfjlkasdjg", Price=210.00M, DiscountedPrice=150.00M, CategoryId = 1, BrandId=1 },
+				new Product {Name="ddsfjaskdfjlkasdjg", Price=210.00M, DiscountedPrice=150.00M, CategoryId = 1, BrandId=1 }
+			);
+
 			base.OnModelCreating(modelBuilder);
 		}
 

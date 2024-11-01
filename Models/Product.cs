@@ -7,6 +7,7 @@ namespace dotNetShop.Models{
 
     public class Product
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
         
