@@ -1,3 +1,11 @@
+using dotNetShop.Data;
+using Microsoft.EntityFrameworkCore;
+
+
+// dotnet tool install --global dotnet-ef    	Установка dotnet-ef инструменты для миграции
+// dotnet ef migrations add InitialCreate		Создание файло миграции First Code
+// dotnet ef database update					Применение миграции к базе данных
+
 namespace dotNetShop
 {
 	public class Program
@@ -5,6 +13,8 @@ namespace dotNetShop
 		public static void Main(string[] args)
 		{
 			var builder = WebApplication.CreateBuilder(args);
+
+			builder.Services.AddDbContext<ShopDBContext>(options => options.UseMySQL(builder.Configuration.GetConnectionString("MySqlConnectionString")));
 
 			// Add services to the container.
 			builder.Services.AddControllersWithViews();
@@ -16,6 +26,8 @@ namespace dotNetShop
 			{
 				app.UseExceptionHandler("/Home/Error");
 			}
+
+
 			app.UseStaticFiles();
 
 			app.UseRouting();
