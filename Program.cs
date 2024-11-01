@@ -10,6 +10,7 @@ namespace dotNetShop
 {
 	public class Program
 	{
+		// Shalom
 		public static void Main(string[] args)
 		{
 			var builder = WebApplication.CreateBuilder(args);
