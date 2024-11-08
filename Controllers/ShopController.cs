@@ -92,7 +92,7 @@ namespace dotNetShop.Controllers
 
 		// GET: ShopController/Details/5
 		// GET: ProductComments/ProductDetails/{productId}
-		public async Task<IActionResult> ProductDetails(int productId)
+		public async Task<IActionResult> Details(int productId)
 		{
 
 			var product = await _context.Products
