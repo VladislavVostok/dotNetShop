@@ -18,11 +18,11 @@ namespace dotNetShop
 		{
 			var builder = WebApplication.CreateBuilder();
 
-
-			string connectionString = builder.Configuration["ProdConnectionString"];
-			builder.Services.AddDbContext<ShopDBContext>(options => options.UseMySQL(connectionString));
-
-
+			
+			//string connectionString = builder.Configuration["ProdConnectionString"];
+			
+						
+			builder.Services.AddDbContext<ShopDBContext>(options => options.UseMySQL(builder.Configuration.GetConnectionString("MysqlConnectionString")));
 
 			// Add services to the container.
 			builder.Services.AddControllersWithViews();
@@ -62,8 +62,6 @@ namespace dotNetShop
 			//builder.Configuration.AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(decryptedJson)));
 
 			#endregion
-			
-
 
 			// Configure the HTTP request pipeline.
 			if (!app.Environment.IsDevelopment())

@@ -33,10 +33,6 @@ namespace dotNetShop.Models{
         [ForeignKey("BrandId")]
         public Brand Brand { get; set; }
         
-        public int CommentId { get; set; }
-        
-        [ForeignKey("CommentId")]
-        public Comment Comment { get; set; }
 
         public ICollection<ProductImage> Images { get; set; }
         
