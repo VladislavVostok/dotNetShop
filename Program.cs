@@ -52,7 +52,7 @@ namespace dotNetShop
 			var configuration = new ConfigurationBuilder()
 				.AddCommandLine(args) // Добавляет поддержку аргументов командной строки
 				.AddProtectedJsonFile("appsettings.json", ConfigureDataProtection) // Добавляет зашифрованный JSON
-				//.AddProtectedJsonFile($"appsettings.{Environment.GetEnvironmentVariable("DOTNETCORE_ENVIRONMENT")}.json", ConfigureDataProtection) // Добавляет зашифрованный JSON для конкретного окружения
+				.AddProtectedJsonFile($"appsettings.{Environment.GetEnvironmentVariable("DOTNETCORE_ENVIRONMENT")}.json", ConfigureDataProtection) // Добавляет зашифрованный JSON для конкретного окружения
 				.AddEnvironmentVariables() // Добавляет поддержку переменных окружения
 				.Build(); // Строит окончательную конфигурацию
 
@@ -72,7 +72,7 @@ namespace dotNetShop
 
 			builder.Services.AddDbContext<ShopDBContext>(options => 
 						options.UseSqlServer(
-							configuration.GetConnectionString("DevConnectionString")
+							configuration.GetConnectionString("SQLSERVERConnectionString")
 						)
 			);
 
@@ -125,7 +125,7 @@ namespace dotNetShop
 				EncryptionAlgorithm = EncryptionAlgorithm.AES_256_CBC, // Использует AES 256 для шифрования
 				ValidationAlgorithm = ValidationAlgorithm.HMACSHA256, // Использует HMAC SHA256 для проверки подлинности
 			}).SetDefaultKeyLifetime(TimeSpan.FromDays(365 * 15)) // Устанавливает срок действия ключей на 15 лет
-			  .PersistKeysToFileSystem(new DirectoryInfo("C:\\Users\\Студент\\Desktop\\345\\TestProtectionJSON\\Keys")); // Указывает путь для хранения ключей
+			  .PersistKeysToFileSystem(new DirectoryInfo("..\\Keys")); // Указывает путь для хранения ключей
 		}
 
 

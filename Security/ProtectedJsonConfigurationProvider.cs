@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.DataProtection;
+using System.Text.Json;
 
 namespace dotNetShop.Security
 {
@@ -6,12 +7,13 @@ namespace dotNetShop.Security
 	{
 		// IDataProtector используется для защиты данных, таких как шифрование и дешифрование
 		private readonly IDataProtector DataProtector;
+        private readonly string FilePath; // Новый член для хранения пути к файлу
 
-		// Строковая константа, определяющая цель защиты данных
-		public static readonly string DataProtectionPurpose = "ProtectedJsonConfiguration";
+                                          
+        public static readonly string DataProtectionPurpose = "ProtectedJsonConfiguration";   // Строковая константа, определяющая цель защиты данных
 
-		// Конструктор провайдера ProtectedJsonConfigurationProvider принимает источник конфигурации
-		public ProtectedJsonConfigurationProvider(ProtectedJsonConfigurationSource source)
+        // Конструктор провайдера ProtectedJsonConfigurationProvider принимает источник конфигурации
+        public ProtectedJsonConfigurationProvider(string filePath, ProtectedJsonConfigurationSource source)
 		{
 			// Если источник имеет действие по настройке защиты данных
 			if (source.DataProtectionBuildAction != null)
@@ -35,31 +37,73 @@ namespace dotNetShop.Security
 			DataProtector = source.ServiceProvider
 				.GetRequiredService<IDataProtectionProvider>()
 				.CreateProtector(DataProtectionPurpose);
-		}
 
-		// Метод Load загружает данные конфигурации и расшифровывает зашифрованные значения
-		public override void Load()
-		{
-			base.Load();
+            FilePath = filePath;
+        }
 
-			// Проходит по всем ключам и проверяет наличие зашифрованных данных
-			foreach (var key in Data.Keys.ToList())
-			{
-				var value = Data[key];
+        // Метод Load загружает данные конфигурации и расшифровывает зашифрованные значения
+        public override void Load()
+        {
+            // Проверяет наличие конфигурационного файла, указанного в source.Path
+            if (!File.Exists(FilePath))
+            {
+                throw new FileNotFoundException($"JSON configuration file '{FilePath}' not found.");
+            }
 
-				// Проверяет, начинается ли значение с "Protected:{" и заканчивается "}", что указывает на зашифрованные данные
-				if (!string.IsNullOrEmpty(value) && value.StartsWith("Protected:{") && value.EndsWith("}"))
-				{
-					// Извлекает зашифрованные данные, удаляя префикс и суффикс
-					var encryptedData = value.Substring(10, value.Length - 11);
+            // Считывает содержимое JSON-файла в строку
+            var jsonContent = File.ReadAllText(FilePath);
 
-					// Расшифровывает данные с помощью IDataProtector
-					var decryptedData = DataProtector.Unprotect(encryptedData);
+            // Десериализует JSON-содержимое в словарь
+            //var data = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonContent);
+            //if (data == null) return;
 
-					// Заменяет зашифрованные данные расшифрованными значениями в конфигурации
-					Data[key] = decryptedData;
-				}
-			}
-		}
-	}
+            // Используем JsonDocument для обработки сложной структуры JSON
+            using (var document = JsonDocument.Parse(jsonContent))
+            {
+                var data = new Dictionary<string, string>();
+                ProcessJsonElement(document.RootElement, data, null);
+
+                // Обрабатывает каждый ключ-значение
+                foreach (var kvp in data)
+                {
+                    var key = kvp.Key;
+                    var value = kvp.Value;
+
+                    // Проверяет, зашифрованы ли данные (заключены в "Protected:{}")
+                    if (!string.IsNullOrEmpty(value) && value.StartsWith("Protected:{") && value.EndsWith("}"))
+                    {
+                        var encryptedData = value.Substring(11, value.Length - 12);
+                        var decryptedData = DataProtector.Unprotect(encryptedData);
+                        Data[key] = decryptedData;
+                    }
+                    else
+                    {
+                        Data[key] = value;
+                    }
+                }
+            }
+
+        }
+
+        // Рекурсивно обрабатывает элементы JSON, включая вложенные объекты
+        private void ProcessJsonElement(JsonElement element, Dictionary<string, string> data, string? parentKey)
+        {
+            foreach (var property in element.EnumerateObject())
+            {
+                var key = parentKey == null ? property.Name : $"{parentKey}:{property.Name}";
+
+                if (property.Value.ValueKind == JsonValueKind.Object)
+                {
+                    // Рекурсивно обрабатывает вложенные объекты
+                    ProcessJsonElement(property.Value, data, key);
+                }
+                else
+                {
+                    // Добавляет значение в словарь как строку
+                    data[key] = property.Value.ToString();
+                }
+            }
+        }
+
+    }
 }

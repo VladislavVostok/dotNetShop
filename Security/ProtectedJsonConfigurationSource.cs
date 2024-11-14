@@ -26,7 +26,7 @@ namespace dotNetShop.Security
 			}
 
 			// Возвращает новый провайдер конфигурации с поддержкой защиты данных
-			return new ProtectedJsonConfigurationProvider(this);
+			return new ProtectedJsonConfigurationProvider(Path, this);
 		}
 	}
 }
