@@ -114,68 +114,30 @@ namespace dotNetShop.Controllers
 			return View(viewModel);
 		}
 
-		// GET: ShopController/Create
-		public ActionResult Create()
-		{
-			return View();
-		}
+        // POST: ProductComments/AddComment
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddComment(ProductCommentViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.NewComment.ProductId = model.Product.Id;
+                model.NewComment.CreatedAt = DateTime.UtcNow;
 
-		// POST: ShopController/Create
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Create(IFormCollection collection)
-		{
-			try
-			{
-				return RedirectToAction(nameof(Index));
-			}
-			catch
-			{
-				return View();
-			}
-		}
+                _context.Comments.Add(model.NewComment);
+                await _context.SaveChangesAsync();
 
-		// GET: ShopController/Edit/5
-		public ActionResult Edit(int id)
-		{
-			return View();
-		}
+                return RedirectToAction("ProductDetails", new { productId = model.Product.Id });
+            }
 
-		// POST: ShopController/Edit/5
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Edit(int id, IFormCollection collection)
-		{
-			try
-			{
-				return RedirectToAction(nameof(Index));
-			}
-			catch
-			{
-				return View();
-			}
-		}
+            // Если валидация не прошла, снова загружаем комментарии
+            model.Comments = await _context.Comments
+                .Where(c => c.ProductId == model.Product.Id)
+                .OrderByDescending(c => c.CreatedAt)
+                .ToListAsync();
 
-		// GET: ShopController/Delete/5
-		public ActionResult Delete(int id)
-		{
-			return View();
-		}
-
-		// POST: ShopController/Delete/5
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Delete(int id, IFormCollection collection)
-		{
-			try
-			{
-				return RedirectToAction(nameof(Index));
-			}
-			catch
-			{
-				return View();
-			}
-		}
-	}
+            return View("ProductDetails", model);
+        }
+    }
 }
 
