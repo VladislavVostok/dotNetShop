@@ -1,4 +1,6 @@
-﻿@{
+﻿@model dotNetShop.Services.OverviewViewModel
+
+@{
 	ViewData["Title"] = "Магазин";
 	ViewData["Author"] = "Author";
 	ViewData["Description"] = "Description";
@@ -6,7 +8,7 @@
 	ViewData["Id"] = "id=\"category\"";
 }
 
-@model dotNetShop.Controllers.OverviewViewModel
+
 
 @* <h2>Обзор продуктов</h2>
 
@@ -100,7 +102,7 @@
 	<div class="container">
 		<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
 			<div class="col-first">
-				<h1>Shop Category page</h1>
+				<h1>Категории</h1>
 				<nav class="d-flex align-items-center">
 					<a asp-area="" asp-controller="Home" asp-action="Index">Home<span class="lnr lnr-arrow-right"></span></a>
 					<a asp-area="" asp-controller="Shop" asp-action="Index">Shop<span class="lnr lnr-arrow-right"></span></a>
@@ -350,7 +352,7 @@
 								<img class="img-fluid" src="img/product/p1.jpg" alt="">
 								<div class="product-details">
 									<h6>
-										@product.Name
+										<a asp-area="" asp-controller="Shop" asp-action="Details" asp-route-Id="@product.Id">@product.Name</a>
 									</h6>
 									<div class="price">
 										<h6>$@product.DiscountedPrice</h6>

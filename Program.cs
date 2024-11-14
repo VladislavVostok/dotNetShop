@@ -28,6 +28,8 @@ using System.Text.RegularExpressions;
 // Microsoft.Extensions.Configuration.Json
 // Fededim.Extensions.Configuration.Protected
 
+// "SQLSERVERConnectionString": "Protect:{Server=localhost;Database=myDataBase;User Id=sa;Password=shalom***;}"
+
 
 namespace dotNetShop
 {
@@ -51,8 +53,8 @@ namespace dotNetShop
 			// Создает и настраивает конфигурацию приложения с использованием зашифрованных JSON-файлов
 			var configuration = new ConfigurationBuilder()
 				.AddCommandLine(args) // Добавляет поддержку аргументов командной строки
-				.AddProtectedJsonFile("appsettings.json", ConfigureDataProtection) // Добавляет зашифрованный JSON
-				.AddProtectedJsonFile($"appsettings.{Environment.GetEnvironmentVariable("DOTNETCORE_ENVIRONMENT")}.json", ConfigureDataProtection) // Добавляет зашифрованный JSON для конкретного окружения
+				//.AddProtectedJsonFile("appsettings.json", ConfigureDataProtection) // Добавляет зашифрованный JSON
+				//.AddProtectedJsonFile($"appsettings.{Environment.GetEnvironmentVariable("DOTNETCORE_ENVIRONMENT")}.json", ConfigureDataProtection) // Добавляет зашифрованный JSON для конкретного окружения
 				.AddEnvironmentVariables() // Добавляет поддержку переменных окружения
 				.Build(); // Строит окончательную конфигурацию
 
@@ -71,15 +73,15 @@ namespace dotNetShop
 			ConfigureDataProtection(dataProtectionBuilder);
 
 			builder.Services.AddDbContext<ShopDBContext>(options => 
-						options.UseSqlServer(
-							configuration.GetConnectionString("SQLSERVERConnectionString")
+						options.UseMySQL(
+							builder.Configuration.GetConnectionString("MYSQLConnectionString")
 						)
 			);
 
 			// Add services to the container.
 			builder.Services.AddControllersWithViews();
 
-			# region Secret Manager, Переменные окружения
+			#region Secret Manager, Переменные окружения
 			//Secret Manager
 			//builder.Configuration.AddUserSecrets<Program>();
 			//string connectionString = builder.Configuration["DevConnectionString"];
@@ -93,6 +95,13 @@ namespace dotNetShop
 
 
 			#endregion
+
+
+			// Регистрация сервиса для работы с товарами
+			builder.Services.AddScoped<IShopService, ShopService>();
+
+
+
 
 			var app = builder.Build();
 
@@ -125,7 +134,7 @@ namespace dotNetShop
 				EncryptionAlgorithm = EncryptionAlgorithm.AES_256_CBC, // Использует AES 256 для шифрования
 				ValidationAlgorithm = ValidationAlgorithm.HMACSHA256, // Использует HMAC SHA256 для проверки подлинности
 			}).SetDefaultKeyLifetime(TimeSpan.FromDays(365 * 15)) // Устанавливает срок действия ключей на 15 лет
-			  .PersistKeysToFileSystem(new DirectoryInfo("..\\Keys")); // Указывает путь для хранения ключей
+			  .PersistKeysToFileSystem(new DirectoryInfo("Keys")); // Указывает путь для хранения ключей
 		}
 
 

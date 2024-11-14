@@ -52,17 +52,13 @@ namespace dotNetShop.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
 
-
-
-
-
 			base.OnModelCreating(modelBuilder);
 		}
 
 
 
 
-		public static void SeedData(ShopDBContext context)
+		public static void SeedDataShop(ShopDBContext context)
 		{
 			// Создаем категории
 			var categories = new List<Category>
