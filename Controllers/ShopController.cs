@@ -1,8 +1,7 @@
 ﻿using dotNetShop.Data;
-using dotNetShop.Models;
 using dotNetShop.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using dotNetShop.ViewModels.ShopService;
 
 namespace dotNetShop.Controllers
 {

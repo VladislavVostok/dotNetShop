@@ -1,9 +1,10 @@
 ﻿using dotNetShop.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace dotNetShop.Data
 {
-	public class ShopDBContext : DbContext
+	public class ShopDBContext : IdentityDbContext<ApplicationUser, ApplicationRole, int>
 	{
 
 		public DbSet<Category> Categories { get; set; }

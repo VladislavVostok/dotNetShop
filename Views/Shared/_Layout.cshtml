@@ -64,7 +64,10 @@
 							<li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Главная</a></li>
 							<li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Shop" asp-action="Index"> Магазин </a></></li>
 							<li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Blog" asp-action="Index"> Блог </a></></li>
+							<li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Contacts" asp-action="Index">Контакты</a></li>
 							
+							#<!-- #region name -->
+
 							@* <li class="nav-item submenu dropdown">
 								<a asp-area="" asp-controller="Shop" asp-action="Index" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
 								   aria-expanded="false">Магазин</a>
@@ -84,7 +87,7 @@
 									<li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
 								</ul>
 							</li> *@
-@* 							<li class="nav-item submenu dropdown">
+							@* <li class="nav-item submenu dropdown">
 								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
 								   aria-expanded="false">Pages</a>
 								<ul class="dropdown-menu">
@@ -93,10 +96,12 @@
 									<li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>
 								</ul>
 							</li> *@
-							<li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Contacts" asp-action="Index">Контакты</a></li>
+							<!-- #endregion -->
+
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
-							<li class="nav-item"><a href="#" class="cart"><span class="ti-bag"></span></a></li>
+							<li class="nav-item"><a asp-area="" asp-action="Login" asp-controller="Account" class="cart"><span class="ti-id-badge"></span></a></li>
+							<li class="nav-item"><a asp-action="Index" asp-controller="Cart" class="cart"><span class="ti-bag"></span></a></li>
 							<li class="nav-item">
 								<button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
 							</li>
@@ -108,9 +113,9 @@
 		<div class="search_input" id="search_input_box">
 			<div class="container">
 				<form class="d-flex justify-content-between">
-					<input type="text" class="form-control" id="search_input" placeholder="Search Here">
+					<input type="text" class="form-control" id="search_input" placeholder="Поиск">
 					<button type="submit" class="btn"></button>
-					<span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
+					<span class="lnr lnr-cross" id="close_search" title="Закрыть"></span>
 				</form>
 			</div>
 		</div>

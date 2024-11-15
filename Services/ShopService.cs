@@ -1,8 +1,8 @@
-﻿using dotNetShop.Controllers;
-using dotNetShop.Data;
+﻿using dotNetShop.Data;
 using dotNetShop.Models;
+using dotNetShop.ViewModels.ShopService;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 
 namespace dotNetShop.Services
 {
@@ -90,38 +90,4 @@ namespace dotNetShop.Services
             return viewModel;
         }
     }
-
-	public class ProductCommentViewModel
-	{
-		public Product Product { get; set; }
-		public Brand Brand { get; set; }
-		public Category Category { get; set; }
-		public Comment NewComment { get; set; } // Модель для нового комментария 
-		public List<Comment> Comments { get; set; } // Список всех комментариев к продукту }
-	}
-	public class OverviewViewModel
-	{
-		public List<BrandCountViewModel> Brands { get; set; }
-		public List<ColorCountViewModel> Colors { get; set; }
-		public List<CategoryCountViewModel> Categories { get; set; }
-		public List<Product> Products { get; set; }
-	}
-
-	public class BrandCountViewModel
-	{
-		public string BrandName { get; set; }
-		public int ProductCount { get; set; }
-	}
-
-	public class ColorCountViewModel
-	{
-		public string ColorName { get; set; }
-		public int ProductCount { get; set; }
-	}
-
-	public class CategoryCountViewModel
-	{
-		public string CategoryName { get; set; }
-		public int ProductCount { get; set; }
-	}
 }

@@ -1,0 +1,57 @@
+﻿@model Register
+@ViewData["Title"] = "Регистрация"
+
+<div class="wrapper">
+    <div class="login_box">
+        <div class="login-header">
+            <span>@ViewData["Title"]</span>
+        </div>
+
+        <form asp-controller="Account" asp-action="Register" method="post">
+            
+            <div asp-validation-summary="All"></div>
+
+            <div class="input_box">
+                <label class="label" asp-for="Login">Пользователь</label>
+                <input type="text" name="Login" asp-for="Login" class="input-field" required>
+                <i class="bx bx-user icon"></i>
+            </div>
+
+            <div class="input_box">
+                <label class="label" asp-for="Email">Эл. почта</label>
+                <input type="text" name="Login" asp-for="Email" class="input-field" required>
+                <i class="bx bx-user icon"></i>
+            </div>
+
+            <div class="input_box">
+                <input type="password" asp-for="Password" class="input-field" required>
+                <label asp-for="Password" class="label">Пароль</label>
+                <i class="bx bx-lock-alt icon"></i>
+            </div>
+
+            <div class="input_box">
+                <input type="password" asp-for="ConfirmPassword" class="input-field" required>
+                <label asp-for="ConfirmPassword" class="label">Password</label>
+                <i class="bx bx-lock-alt icon"></i>
+            </div>
+
+            <div class="remember-forgot">
+                <div class="remember-me">
+                    <input type="checkbox" id="remember">
+                    <label for="remember">Remember me</label>
+                </div>
+
+                <div class="forgot">
+                    <a href="#">Forgot password?</a>
+                </div>
+            </div>
+
+            <div class="input_box">
+                <input type="submit" class="input-submit" value="Login">
+            </div>
+        </form>
+        <div class="register">
+            <span>Вы уже имеете аккаунт? <a asp-action="Login" asp-controller="Account">Вход</a></span>
+        </div>
+    </div>
+</div>
