@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>@ViewData["Title"]</title>
@@ -8,7 +9,21 @@
     <link rel="stylesheet" href="~/css/style-register-login.css">
 
 </head>
+
 <body>
-    @RenderBody()
+    <!-- partial:index.partial.html -->
+    <div class="wrapper">
+        <div class="login_box">
+            <div class="login-header">
+                <span>@ViewData["Title"]</span>
+            </div>
+
+        @RenderBody()
+
+    </div>
+    <!-- partial -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.js"></script>
 </body>
 </html>

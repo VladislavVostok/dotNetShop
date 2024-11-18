@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 #endregion
 
 using dotNetShop.Models;
+using Google.Protobuf.WellKnownTypes;
 
 
 
@@ -96,10 +97,19 @@ namespace dotNetShop
 						)
 			); 
 			
-			builder.Services.AddIdentity<ApplicationUser,ApplicationRole>().AddEntityFrameworkStores<ShopDBContext>();
+			builder.Services.AddIdentity<ApplicationUser,ApplicationRole>(
+				options => { 
+						options.Password.RequireNonAlphanumeric = true; //пароль должен содержать не буквенно-цифровые символы (например, подчеркивание)
+						options.Password.RequireDigit = true; //пароль должен содержать цифры
+						options.Password.RequiredLength = 10; //минимальная длина пароля
+                }
+				).AddEntityFrameworkStores<ShopDBContext>();
 
-			// Add services to the container.
-			builder.Services.AddControllersWithViews();
+
+
+
+            // Add services to the container.
+            builder.Services.AddControllersWithViews();
 
 			#region Secret Manager, Переменные окружения
 			//Secret Manager

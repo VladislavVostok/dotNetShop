@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Account\Controllers\" />
     <Folder Include="Areas\Account\Data\" />
   </ItemGroup>
 

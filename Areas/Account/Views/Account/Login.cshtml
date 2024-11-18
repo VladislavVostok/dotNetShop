@@ -1,0 +1,21 @@
+﻿@model Login
+
+@{
+    ViewData["Title"] = "Вход в приложение";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-area="Account" asp-controller="Account" asp-action="Login" asp-antiforgery="true" method="post">
+    <div asp-validation-summary="All"></div>
+    <div>
+        <label class="form-label" asp-for="LogIn"></label>
+        <input class="form-control" name='LogIn' asp-for="LogIn" />
+
+        <label class="form-label" asp-for="Password"></label>
+        <input class="form-control" name="Password" asp-for="Password" type="password" />
+
+        <br />
+        <button type="submit" class="btn btn-primary mb-3">Отправить</button>
+    </div>
+</form>

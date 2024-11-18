@@ -120,12 +120,20 @@
 			</div>
 		</div>
 	</header>
-	<!-- End Header Area -->
 
+	<!-- End Header Area -->
+	
 
 	@RenderBody()
 
-
+	@addTagHelper *, AspMvcAuth
+	@{
+		ViewData["Title"] = "Home Page";
+	}
+	<div class="text-center">
+		<h1 class="display-4">Welcome</h1>
+		<vc:account-menu></vc:account-menu>
+	</div>
 	<!-- start footer Area -->
 	<footer class="footer-area section_gap">
 		<div class="container">

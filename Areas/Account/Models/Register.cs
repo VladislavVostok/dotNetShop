@@ -17,7 +17,7 @@ namespace dotNetShop.Areas.Account.Models
         public string Email { get; set; }
         
         [Required(ErrorMessage = "Поле Организация обязательно для заполнения")]
-        [DisplayName("Организация")]
+        [DisplayName("Пароль")]
         public string Password { get; set; }
         
         [Required(ErrorMessage = "Поле Пароль ещё раз обязательно для заполнения")]

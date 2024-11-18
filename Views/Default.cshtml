@@ -1,0 +1,16 @@
+﻿@using System.Security.Claims
+
+@model ClaimsPrincipal
+
+<div>
+    @if (Model.Identity.IsAuthenticated)
+    {
+        <p>Привет, @Model.Identity.Name</p>
+        <a href="/account/signout">Выйти из приложения</a>
+    }
+    else
+    {
+        <p>Привет, Анонимус!</p>
+        <a href="/account/signin">Войти в приложение</a>
+    }
+</div>
