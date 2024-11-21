@@ -1,21 +1,39 @@
 ﻿@model Login
 
-@{
-    ViewData["Title"] = "Вход в приложение";
-}
-
-<h1>@ViewData["Title"]</h1>
-
 <form asp-area="Account" asp-controller="Account" asp-action="Login" asp-antiforgery="true" method="post">
+    
     <div asp-validation-summary="All"></div>
+    
     <div>
-        <label class="form-label" asp-for="LogIn"></label>
-        <input class="form-control" name='LogIn' asp-for="LogIn" />
+        <div class="input_box">
+            <input type="text" asp-for="LogIn" class="input-field" required>
+            <label asp-for="LogIn" class="label"></label>
+            <i class="bx bx-user icon"></i>
+        </div>
 
-        <label class="form-label" asp-for="Password"></label>
-        <input class="form-control" name="Password" asp-for="Password" type="password" />
+        <div class="input_box">
+            <input type="password" asp-for="Password" class="input-field" required>
+            <label asp-for="Password" class="label"></label>
+            <i class="bx bx-lock-alt icon"></i>
+        </div>
 
-        <br />
-        <button type="submit" class="btn btn-primary mb-3">Отправить</button>
+        <div class="remember-forgot">
+            <div class="remember-me">
+                <input type="checkbox" id="remember">
+                <label for="remember">Запомнить меня!</label>
+            </div>
+
+            <div class="forgot">
+                <a href="#">Забыли пароль?</a>
+            </div>
+        </div>
+
+        <div class="input_box">
+            <input type="submit" class="input-submit" value="Login">
+        </div>
+
+        <div class="register">
+            <span>Вы ещё не имеете аккаунт? <a asp-area="Account" asp-controller="Account" asp-action="Register">Регистрация</a></span>
+        </div>
     </div>
 </form>

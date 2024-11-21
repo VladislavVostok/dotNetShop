@@ -1,52 +1,38 @@
 ﻿@model Register
-@{
-	ViewData["Title"] = "Регистрация";
-}
 
-<form asp-controller="Account" asp-action="Register" method="post">
+<form asp-area="Account" asp-controller="Account" asp-action="Register" asp-antiforgery="true" method="post">
 
-	<div asp-validation-summary="All"></div>
+    <div asp-validation-summary="All"></div>
 
-	<div class="input_box">
-		<label class="label" asp-for="Login">Пользователь</label>
-		<input type="text" name="Login" asp-for="Login" class="input-field" required>
-		<i class="bx bx-user icon"></i>
-	</div>
+        <div class="input_box">
+            <input type="text" asp-for="Login" class="input-field" required>
+            <label asp-for="Login" class="label"></label>
+            <i class="bx bx-user icon"></i>
+        </div>
 
-	<div class="input_box">
-		<label class="label" asp-for="Email">Эл. почта</label>
-		<input type="text" name="Login" asp-for="Email" class="input-field" required>
-		<i class="bx bx-user icon"></i>
-	</div>
+        <div class="input_box">
+            <input type="password" asp-for="Password" class="input-field" required>
+            <label asp-for="Password" class="label"></label>
+            <i class="bx bx-lock-alt icon"></i>
+        </div>
 
-	<div class="input_box">
-		<input type="password" asp-for="Password" class="input-field" required>
-		<label asp-for="Password" class="label">Пароль</label>
-		<i class="bx bx-lock-alt icon"></i>
-	</div>
+        <div class="input_box">
+            <input type="password" asp-for="ConfirmPassword" class="input-field" required>
+            <label asp-for="ConfirmPassword" class="label"></label>
+            <i class="bx bx-lock-alt icon"></i>
+        </div>
 
-	<div class="input_box">
-		<input type="password" asp-for="ConfirmPassword" class="input-field" required>
-		<label asp-for="ConfirmPassword" class="label">Password</label>
-		<i class="bx bx-lock-alt icon"></i>
-	</div>
+        </div>
 
-	<div class="remember-forgot">
-		<div class="remember-me">
-			<input type="checkbox" id="remember">
-			<label for="remember">Remember me</label>
-		</div>
+        <div class="input_box">
+            <input type="submit" class="input-submit">
+        </div>
 
-		<div class="forgot">
-			<a href="#">Forgot password?</a>
-		</div>
-	</div>
-
-	<div class="input_box">
-		<input type="submit" class="input-submit" value="Login">
-	</div>
+        <div class="register">
+            <span>У вас есть аккаунт?
+            <a asp-area="Account" asp-controller="Account" asp-action="Login">
+                    Войти
+                </a>
+                </span>
+        </div>
 </form>
-
-<div class="register">
-	<span>Вы уже имеете аккаунт? <a asp-action="Login" asp-controller="Account">Вход</a></span>
-</div>

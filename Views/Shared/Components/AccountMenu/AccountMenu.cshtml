@@ -1,0 +1,12 @@
+﻿@using System.Security.Claims
+
+@model ClaimsPrincipal
+
+@if (Model.Identity.IsAuthenticated)
+{
+    <a class="cart" asp-area="Account" asp-controller="Account" asp-action="SignOut"><span b-xjhecsolzn="" class="ti-move"></span></a>
+}
+else
+{
+    <a class="cart" asp-area="Account" asp-controller="Account" asp-action="Login"><span b-xjhecsolzn="" class="ti-id-badge"></span></a>
+}
