@@ -13,6 +13,7 @@ namespace dotNetShop.Data
 		public DbSet<Color> Colors { get; set; }
 		public DbSet<ProductImage> ProductImages { get; set; }
 		public DbSet<Comment> Comments { get; set; }
+		public DbSet<Contact> Contacts { get; set; }
 
 
 		public ShopDBContext() { }
@@ -57,6 +58,16 @@ namespace dotNetShop.Data
 		}
 
 
+		public static void SeedDataContact(ShopDBContext context)
+		{
+			var contacts = new List<Contact>
+			{
+				new Contact { Address = "Москва, Петровка 38, офис. 1", Email="policia.dont.sleep@yandex.ru", Phone = "9533266820"}
+			};
+
+			context.Contacts.AddRange(contacts);
+			context.SaveChanges();
+		}
 
 
 		public static void SeedDataShop(ShopDBContext context)

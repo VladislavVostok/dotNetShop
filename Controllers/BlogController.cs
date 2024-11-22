@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotNetShop.Controllers
@@ -6,6 +7,7 @@ namespace dotNetShop.Controllers
 	public class BlogController : Controller
 	{
 		// GET: BlogController
+		[Authorize]
 		public ActionResult Index()
 		{
 			return View();

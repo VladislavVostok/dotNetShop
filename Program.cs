@@ -21,7 +21,7 @@ using Google.Protobuf.WellKnownTypes;
 // Либы БД
 // Microsoft.EntityFrameworkCore
 // Microsoft.EntityFrameworkCore.SqlServer
-// 
+// MySql.EntityFrameworkCore
 // 
 
 // dotnet tool install --global dotnet-ef    	Установка dotnet-ef инструменты для миграции
@@ -130,7 +130,7 @@ namespace dotNetShop
 
 			// Регистрация сервиса для работы с товарами
 			builder.Services.AddScoped<IShopService, ShopService>();
-
+			builder.Services.AddScoped<IContactService, ContactService>();
 
 
 
