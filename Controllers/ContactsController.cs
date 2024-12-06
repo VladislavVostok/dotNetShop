@@ -37,7 +37,7 @@ namespace dotNetShop.Controllers
 				return RedirectToAction("Index", "Contacts");
 			}
 
-			_contactService.SaveContactMessageAsync(contact);
+			await _contactService.SaveContactMessageAsync(contact);
 
 
 			return RedirectToAction("Index", "Contacts");
