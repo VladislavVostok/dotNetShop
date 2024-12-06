@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using dotNetShop.Data;
 using dotNetShop.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace dotNetShop.Areas.API.Controllers
 {
@@ -9,19 +10,24 @@ namespace dotNetShop.Areas.API.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
+
         private readonly ShopDBContext _context;
+
 
         public ProductsController(ShopDBContext context)
         {
             _context = context;
         }
 
+
         // GET: api/Products
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
             return await _context.Products.ToListAsync();
         }
+
 
         // GET: api/Products/5
         [HttpGet("{id}")]
@@ -36,6 +42,7 @@ namespace dotNetShop.Areas.API.Controllers
 
             return product;
         }
+
 
         // PUT: api/Products/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -68,9 +75,10 @@ namespace dotNetShop.Areas.API.Controllers
             return NoContent();
         }
 
-        // POST: api/Products
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+
+		// POST: api/Products
+		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+		[HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
             _context.Products.Add(product);
@@ -78,6 +86,7 @@ namespace dotNetShop.Areas.API.Controllers
 
             return CreatedAtAction("GetProduct", new { id = product.Id }, product);
         }
+
 
         // DELETE: api/Products/5
         [HttpDelete("{id}")]

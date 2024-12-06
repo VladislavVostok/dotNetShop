@@ -2,14 +2,18 @@ using dotNetShop.Data;
 using Microsoft.EntityFrameworkCore;
 using dotNetShop.Services;
 using dotNetShop.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 
 
 
 // Либы БД
-// Microsoft.EntityFrameworkCore
-// Microsoft.EntityFrameworkCore.SqlServer
-// MySql.EntityFrameworkCore
+// dotnet add package Microsoft.EntityFrameworkCore
+// dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+// dotnet add package MySql.EntityFrameworkCore
 // 
 
 // dotnet tool install --global dotnet-ef    	Установка dotnet-ef инструменты для миграции
@@ -17,11 +21,8 @@ using dotNetShop.Models;
 // dotnet ef database update					Применение миграции к базе данных
 
 
-// Либы шифрование конфигов 
-// Microsoft.AspNetCore.DataProtection
-// Microsoft.Extensions.Configuration.Json
-// Fededim.Extensions.Configuration.Protected
-// Microsoft.AspNetCore.Identity.EntityFramework
+// dotnet add package Microsoft.AspNetCore.Identity.EntityFramework		// Для MVC авторизации
+// dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer		// Для JWT авторизации
 
 namespace dotNetShop
 {
@@ -57,10 +58,33 @@ namespace dotNetShop
 					options.Password.RequireDigit = true; //пароль должен содержать цифры
 					options.Password.RequiredLength = 10; //минимальная длина пароля
 				}
-				).AddEntityFrameworkStores<ShopDBContext>();
+				).AddEntityFrameworkStores<ShopDBContext>()
+				.AddDefaultTokenProviders();            //Добавляем провайдер JWT
 
-			// Add services to the container.
-			builder.Services.AddControllersWithViews();
+
+			builder.Services.AddAuthentication(options =>
+			{
+				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			}).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                    ValidAudience = builder.Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                };
+            }); ;
+
+
+            builder.Services.AddAuthorization();
+
+            // Add services to the container.
+            builder.Services.AddControllersWithViews() ;
 
 			#region Secret Manager, Переменные окружения
 			//Secret Manager
@@ -77,9 +101,8 @@ namespace dotNetShop
 			// Регистрация сервиса для работы с товарами
 			builder.Services.AddScoped<IShopService, ShopService>();
 			builder.Services.AddScoped<IContactService, ContactService>();
+			builder.Services.AddScoped<ITokenService, TokenService>();
 
-			//builder.Services.AddEndpointsApiExplorer();
-			//builder.Services.AddSwaggerGen();
 
 			var app = builder.Build();
 
@@ -90,13 +113,6 @@ namespace dotNetShop
 				app.UseExceptionHandler("/Home/Error");
 			}
 
-			//app.UseSwagger();
-			//app.UseSwaggerUI(options => // UseSwaggerUI is called only in Development.
-			//{
-			//	options.SwaggerEndpoint("/swagger/v1/swagger.json", "DemoAPI v1");
-			//	//options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-			//	options.RoutePrefix = string.Empty;
-			//});
 
 			app.UseStaticFiles();
 

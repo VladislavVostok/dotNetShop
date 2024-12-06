@@ -22,7 +22,8 @@ namespace dotNetShop.Controllers
 		{
 
 			var viewModel = await _shopService.GetShopAsync();
-
+			//ShopDBContext.SeedDataShop(_context);
+			//ShopDBContext.SeedDataContact(_context);
 			return View(viewModel);
 		}
 

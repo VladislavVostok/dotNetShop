@@ -23,21 +23,21 @@ namespace dotNetShop.Models{
         
         public decimal? DiscountedPrice { get; set; }
         
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
         
         [ForeignKey("CategoryId")]
-        public Category Category { get; set; }
+        public Category? Category { get; set; }
 
-        public int BrandId { get; set; }
+        public int? BrandId { get; set; }
         
         [ForeignKey("BrandId")]
-        public Brand Brand { get; set; }
+        public Brand? Brand { get; set; }
         
 
-        public ICollection<ProductImage> Images { get; set; }
+        public ICollection<ProductImage>? Images { get; set; }
         
-        public ICollection<Color> AvailableColors { get; set; }
+        public ICollection<Color>? AvailableColors { get; set; }
 
-        public ICollection<Comment> Comments{get;set;}
+        public ICollection<Comment>? Comments{get;set;}
     }
 }

@@ -7,7 +7,6 @@ namespace dotNetShop.Controllers
 	public class BlogController : Controller
 	{
 		// GET: BlogController
-		[Authorize]
 		public ActionResult Index()
 		{
 			return View();
