@@ -1,5 +1,6 @@
 ﻿using dotNetShop.Models;
 using dotNetShop.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -62,6 +63,7 @@ namespace dotNetShop.Areas.API.Controllers
             return Ok(new { accessToken });
         }
 
+        [Authorize]
         [HttpPost("refresh")]
         public async Task<IActionResult> Refresh()
         {
@@ -99,6 +101,14 @@ namespace dotNetShop.Areas.API.Controllers
             };
 
             Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
+        }
+
+        [Authorize]
+        [HttpGet("claims")]
+        public IActionResult GetClaims()
+        {
+            var claims = User.Claims.Select(c => new { c.Type, c.Value });
+            return Ok(claims);
         }
     }
 }

@@ -21,7 +21,9 @@ namespace dotNetShop.Services
 
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, user.UserName),
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()), // ID пользователя
+            new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName), // Имя пользователя
+            new Claim(ClaimTypes.Name, user.UserName), // Это попадет в User.Identity.Name
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
