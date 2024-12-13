@@ -21,9 +21,9 @@ namespace dotNetShop.Services
 
         var claims = new List<Claim>
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()), // ID пользователя
+            new Claim(ClaimTypes.UserData, user.Id.ToString()), // ID пользователя
             new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName), // Имя пользователя
-            new Claim(ClaimTypes.Name, user.UserName), // Это попадет в User.Identity.Name
+            //new Claim(ClaimTypes.Name, user.UserName), // Это попадет в User.Identity.Name
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
@@ -34,7 +34,7 @@ namespace dotNetShop.Services
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(5),
+                expires: DateTime.UtcNow.AddMinutes(30),
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

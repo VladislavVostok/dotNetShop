@@ -118,7 +118,13 @@ namespace dotNetShop
 
 			app.UseRouting();
 
-			app.UseAuthorization();
+			app.UseAuthorization(new StaticFileOptions
+				{
+					OnPrepareResponse = ctx =>
+					{
+						ctx.Context.Response.Headers["Cache-Control"] = "public,max-age=3600";
+					}
+				});
 
 			app.MapControllerRoute(
 				name: "default",

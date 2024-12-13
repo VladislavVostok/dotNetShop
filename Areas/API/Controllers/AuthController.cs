@@ -3,6 +3,8 @@ using dotNetShop.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace dotNetShop.Areas.API.Controllers
 {
@@ -69,11 +71,20 @@ namespace dotNetShop.Areas.API.Controllers
         {
             if (!Request.Cookies.TryGetValue("refreshToken", out var refreshToken))
                 return Unauthorized("No refresh token provided");
-         
+
+            string userId = null;
+
+			var identity = HttpContext.User.Identity as ClaimsIdentity;
+			if (identity != null)
+			{
+                userId = //Convert.ToInt32(
+                        identity?.FindFirst(ClaimTypes.UserData)?.Value;
+                   // );
+			}
 
 
-			var username = User?.Identity?.Name;
-            var user = await _userManager.FindByNameAsync(username);
+			//var username = User?.Identity?.Name;
+            var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
                 return Unauthorized("User not found");
 

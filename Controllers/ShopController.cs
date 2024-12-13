@@ -20,10 +20,10 @@ namespace dotNetShop.Controllers
 		// GET: ShopController
 		public async Task<IActionResult> Index()
 		{
-
+			ShopDBContext.SeedDataShop(_context);
+			ShopDBContext.SeedDataContact(_context);
 			var viewModel = await _shopService.GetShopAsync();
-			//ShopDBContext.SeedDataShop(_context);
-			//ShopDBContext.SeedDataContact(_context);
+
 			return View(viewModel);
 		}
 
